@@ -1,15 +1,48 @@
-import "react-native-gesture-handler"
-import React, { useState } from "react"
+import { connect } from "react-redux"
+import { createDrawerNavigator } from "@react-navigation/drawer"
 import { createStackNavigator } from "@react-navigation/stack"
 import { NavigationContainer } from "@react-navigation/native"
+import React, { useState } from "react"
 
 import BaseConfigurationScreen from "../screens/BaseConfigurationScreen"
+import BusinessPartnersScreen from "../screens/BusinessPartnersScreen"
 import LoginScreen from "../screens/LoginScreen"
 import { navigationRef } from "../utils/navigation"
-import { routes } from "../constants/RouteNames"
+import { routes, titles } from "../constants/RouteNames"
 
 const PrimaryNavigator = createStackNavigator()
 const LoginStack = createStackNavigator()
+const DrawerNavigationStack = createDrawerNavigator()
+const BusinnessPartnersStack = createStackNavigator()
+
+const createBusinnessPartnersStack = () => {
+  return (
+    <BusinnessPartnersStack.Navigator
+      initialRouteName={routes.BUSINESS_PARTNERS_SCREEN}>
+      <BusinnessPartnersStack.Screen
+        name={routes.BUSINESS_PARTNERS_SCREEN}
+        component={BusinessPartnersScreen}
+        options={{
+          headerTitle: titles.BUSINESS_PARTNERS_SCREEN,
+        }}
+      />
+    </BusinnessPartnersStack.Navigator>
+  )
+}
+
+const createDrawerNavigationStack = () => {
+  return (
+    <DrawerNavigationStack.Navigator
+      initialRouteName={routes.BUSINESS_PARTNERS_STACK}
+      drawerPosition="left"
+      drawerType="front">
+      <DrawerNavigationStack.Screen
+        name={routes.BUSINESS_PARTNERS_STACK}
+        component={createBusinnessPartnersStack}
+      />
+    </DrawerNavigationStack.Navigator>
+  )
+}
 
 const createLoginStack = () => {
   return (
@@ -27,7 +60,7 @@ const createLoginStack = () => {
   )
 }
 
-const AppNavigation = () => {
+const AppNavigation = (props) => {
   const [isReadyRef, setIsReadyRef] = useState(false)
   return (
     <NavigationContainer
@@ -36,7 +69,9 @@ const AppNavigation = () => {
         setIsReadyRef(true)
       }}>
       <PrimaryNavigator.Navigator
-        initialRouteName={routes.LOGIN_STACK}
+        initialRouteName={
+          props.password ? routes.DRAWER_STACK : routes.LOGIN_STACK
+        }
         screenOptions={{
           headerShown: false,
         }}>
@@ -44,9 +79,15 @@ const AppNavigation = () => {
           name={routes.LOGIN_STACK}
           children={createLoginStack}
         />
+        <PrimaryNavigator.Screen
+          name={routes.DRAWER_STACK}
+          children={createDrawerNavigationStack}
+        />
       </PrimaryNavigator.Navigator>
     </NavigationContainer>
   )
 }
 
-export default AppNavigation
+export default connect((state) => ({
+  password: state.session.password,
+}))(AppNavigation)

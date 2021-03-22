@@ -1,7 +1,8 @@
-import ActionTypes from "../constants/ActionTypes"
-import { routes } from "../constants/RouteNames"
-import { navigateTo } from "../utils/navigation"
 import Odoo from "react-native-odoo"
+
+import ActionTypes from "../constants/ActionTypes"
+import { navigateTo, resetNavigationTo } from "../utils/navigation"
+import { routes } from "../constants/RouteNames"
 
 export function saveBaseConfiguration(url, database) {
   return (dispatch) => {
@@ -57,6 +58,7 @@ export function login(url, database, username, password) {
         }
       } else {
         dispatch(loginSuccesful(username, password))
+        resetNavigationTo(routes.DRAWER_STACK, null, null, null)
       }
       dispatch(hideLoadingModal())
     })
