@@ -65,6 +65,13 @@ export function login(url, database, username, password) {
   }
 }
 
+export function goLogout() {
+  return (dispatch) => {
+    dispatch(logout())
+    resetNavigationTo(routes.LOGIN_STACK, null, null, null)
+  }
+}
+
 function loginSuccesful(username, password) {
   return {
     type: ActionTypes.LOGIN_SUCCESSFUL,
@@ -96,5 +103,11 @@ function showLoadingModal() {
 function hideLoadingModal() {
   return {
     type: ActionTypes.HIDE_LOADING_MODAL,
+  }
+}
+
+function logout() {
+  return {
+    type: ActionTypes.LOGOUT,
   }
 }

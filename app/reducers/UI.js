@@ -30,6 +30,10 @@ function reducer(state = initialState, action = {}) {
         ...state,
         showLoadingModal: false,
       }
+    case ActionTypes.LOGOUT:
+      return {
+        ...initialState,
+      }
     default:
       return state
   }

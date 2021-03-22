@@ -5,6 +5,7 @@ export const routes = {
   DRAWER_STACK: "drawerStack",
   BUSINESS_PARTNERS_STACK: "businessPartnersStack",
   BUSINESS_PARTNERS_SCREEN: "businessPartnersScreen",
+  PRODUCTS_LIST_STACK: "productsListStack",
 }
 
 export const titles = {

@@ -5,6 +5,7 @@ const ActionTypes = {
   CLEAN_LOGIN_ERROR: "cleanLoginError",
   SHOW_LOADING_MODAL: "showLoadingModal",
   HIDE_LOADING_MODAL: "hideLoadingModal",
+  LOGOUT: "logout",
 }
 
 export default ActionTypes

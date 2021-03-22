@@ -21,6 +21,13 @@ function reducer(state = initialState, action = {}) {
         username: action.username,
         password: action.password,
       }
+    case ActionTypes.LOGOUT:
+      return {
+        ...initialState,
+        url: state.url,
+        database: state.database,
+        username: state.username,
+      }
     default:
       return state
   }
