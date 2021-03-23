@@ -1,51 +1,64 @@
+import Proptypes from "prop-types"
 import React from "react"
-import { View, StyleSheet, Text } from "react-native"
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native"
 
 import DollarSymbol from "../../assets/images/DollarSymbol"
 import Mobile from "../../assets/images/Mobile"
+import { navigateTo } from "../utils/navigation"
 import User from "../../assets/images/User"
+import { routes } from "../constants/RouteNames"
 
 class BusinessPartnerItem extends React.Component {
   static defaultProps = {
     item: null,
   }
 
+  goBusinessPartnerScreen() {
+    navigateTo(routes.BUSINESS_PARTNER_SCREEN, { item: this.props.item }, null)
+  }
+
   render() {
     return (
-      <View style={styles.business_partner_item_view}>
-        <View style={styles.business_partner_item_row}>
-          <User />
-          <Text style={styles.business_partner_item_name}>
-            {this.props.item.name}
-          </Text>
-        </View>
-        <View style={styles.business_partner_item_row}>
-          <View style={styles.business_partner_item_image_view}>
-            <Mobile />
-          </View>
-          <View style={styles.business_partner_item_column}>
-            <Text style={styles.business_partner_item_description}>
-              {this.props.item.phone_number}
-            </Text>
-            <Text style={styles.business_partner_item_title}>Móvil</Text>
-          </View>
-        </View>
-        <View style={styles.business_partner_item_row}>
-          <View style={styles.business_partner_item_image_view}>
-            <DollarSymbol />
-          </View>
-          <View style={styles.business_partner_item_column}>
-            <Text style={styles.business_partner_item_description}>
-              {this.props.item.cash}
-            </Text>
-            <Text style={styles.business_partner_item_title}>
-              Saldo cliente
+      <TouchableWithoutFeedback onPress={() => this.goBusinessPartnerScreen()}>
+        <View style={styles.business_partner_item_view}>
+          <View style={styles.business_partner_item_row}>
+            <User />
+            <Text style={styles.business_partner_item_name}>
+              {this.props.item.name}
             </Text>
           </View>
+          <View style={styles.business_partner_item_row}>
+            <View style={styles.business_partner_item_image_view}>
+              <Mobile />
+            </View>
+            <View style={styles.business_partner_item_column}>
+              <Text style={styles.business_partner_item_description}>
+                {this.props.item.phone_number}
+              </Text>
+              <Text style={styles.business_partner_item_title}>Móvil</Text>
+            </View>
+          </View>
+          <View style={styles.business_partner_item_row}>
+            <View style={styles.business_partner_item_image_view}>
+              <DollarSymbol />
+            </View>
+            <View style={styles.business_partner_item_column}>
+              <Text style={styles.business_partner_item_description}>
+                {this.props.item.cash}
+              </Text>
+              <Text style={styles.business_partner_item_title}>
+                Saldo cliente
+              </Text>
+            </View>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
+}
+
+BusinessPartnerItem.propTypes = {
+  item: Proptypes.object,
 }
 
 const styles = StyleSheet.create({

@@ -5,9 +5,11 @@ export const routes = {
   DRAWER_STACK: "drawerStack",
   BUSINESS_PARTNERS_STACK: "businessPartnersStack",
   BUSINESS_PARTNERS_SCREEN: "businessPartnersScreen",
+  BUSINESS_PARTNER_SCREEN: "businessPartnerScreen",
   PRODUCTS_LIST_STACK: "productsListStack",
 }
 
 export const titles = {
   BUSINESS_PARTNERS_SCREEN: "Socios de Negocios",
+  BUSINESS_PARTNER_SCREEN: "Gestión de Negocios",
 }

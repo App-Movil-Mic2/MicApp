@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontFamily: "Poppins-SemiBold",
     marginLeft: 22,
+    textAlignVertical: "center",
+    includeFontPadding: false,
   },
 })
 

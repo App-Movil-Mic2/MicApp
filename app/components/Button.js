@@ -6,7 +6,7 @@ class Button extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.props.onPress}>
-        <View style={styles.button}>
+        <View style={[styles.button, this.props.style]}>
           <Text style={styles.button_text}>{this.props.title}</Text>
         </View>
       </TouchableWithoutFeedback>

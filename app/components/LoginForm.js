@@ -9,9 +9,10 @@ import {
 } from "react-native"
 
 import Button from "./Button"
-import { goBack } from "../utils/navigation"
-import { displayAlertModal } from "../utils/UI"
 import { cleanLoginError, login } from "../actions/SessionActions"
+import { displayAlertModal } from "../utils/UI"
+import { resetNavigationTo } from "../utils/navigation"
+import { routes } from "../constants/RouteNames"
 
 class LoginForm extends React.Component {
   static defaultProps = {
@@ -93,7 +94,15 @@ class LoginForm extends React.Component {
           style={styles.login_form_text_input}
         />
         <View style={styles.login_form_back_view}>
-          <TouchableWithoutFeedback onPress={goBack}>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              resetNavigationTo(
+                routes.BASE_CONFIGURATION_SCREEN,
+                null,
+                null,
+                null,
+              )
+            }}>
             <Text style={styles.login_form_back_text}>
               Cambiar configuración base
             </Text>

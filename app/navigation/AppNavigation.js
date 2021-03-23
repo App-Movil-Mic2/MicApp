@@ -5,18 +5,42 @@ import { NavigationContainer } from "@react-navigation/native"
 import React, { useState } from "react"
 
 import BaseConfigurationScreen from "../screens/BaseConfigurationScreen"
+import BusinessPartnerScreen from "../screens/BusinessPartnerScreen"
 import BusinessPartnersScreen from "../screens/BusinessPartnersScreen"
+import Drawer from "../components/Drawer"
+import Header from "../components/Header"
 import LoginScreen from "../screens/LoginScreen"
 import { navigationRef } from "../utils/navigation"
 import { routes, titles } from "../constants/RouteNames"
-import Header from "../components/Header"
-import Drawer from "../components/Drawer"
-import { useEffect } from "react"
 
 const PrimaryNavigator = createStackNavigator()
 const LoginStack = createStackNavigator()
 const DrawerNavigationStack = createDrawerNavigator()
 const BusinnessPartnersStack = createStackNavigator()
+
+const mapNavigationStateParamsToProps = (SomeComponent) => {
+  return class extends React.Component {
+    static navigationOptions = SomeComponent.navigationOptions
+    render() {
+      const {
+        route: { params },
+      } = this.props
+      return <SomeComponent {...params} />
+    }
+  }
+}
+
+const getHeader = (scene, previous, navigation) => {
+  const { options } = scene.descriptor
+  const title =
+    options.headerTitle !== undefined
+      ? options.headerTitle
+      : options.title !== undefined
+      ? options.title
+      : scene.route.name
+
+  return <Header title={title} navigation={navigation} />
+}
 
 const createBusinnessPartnersStack = () => {
   return (
@@ -27,17 +51,17 @@ const createBusinnessPartnersStack = () => {
         component={BusinessPartnersScreen}
         options={{
           headerTitle: titles.BUSINESS_PARTNERS_SCREEN,
-          header: ({ scene, previous, navigation }) => {
-            const { options } = scene.descriptor
-            const title =
-              options.headerTitle !== undefined
-                ? options.headerTitle
-                : options.title !== undefined
-                ? options.title
-                : scene.route.name
-
-            return <Header title={title} navigation={navigation} />
-          },
+          header: ({ scene, previous, navigation }) =>
+            getHeader(scene, previous, navigation),
+        }}
+      />
+      <BusinnessPartnersStack.Screen
+        name={routes.BUSINESS_PARTNER_SCREEN}
+        component={mapNavigationStateParamsToProps(BusinessPartnerScreen)}
+        options={{
+          headerTitle: titles.BUSINESS_PARTNER_SCREEN,
+          header: ({ scene, previous, navigation }) =>
+            getHeader(scene, previous, navigation),
         }}
       />
     </BusinnessPartnersStack.Navigator>
@@ -61,10 +85,12 @@ const createDrawerNavigationStack = () => {
   )
 }
 
-const createLoginStack = () => {
+const createLoginStack = (isConfigured) => {
   return (
     <LoginStack.Navigator
-      initialRouteName={routes.BASE_CONFIGURATION_SCREEN}
+      initialRouteName={
+        isConfigured ? routes.LOGIN_SCREEN : routes.BASE_CONFIGURATION_SCREEN
+      }
       screenOptions={{
         headerShown: false,
       }}>
@@ -79,6 +105,11 @@ const createLoginStack = () => {
 
 const AppNavigation = (props) => {
   const [isReadyRef, setIsReadyRef] = useState(false)
+
+  const isConfigured = () => {
+    return props.url && props.database
+  }
+
   return (
     <NavigationContainer
       ref={isReadyRef ? navigationRef : null}
@@ -94,7 +125,7 @@ const AppNavigation = (props) => {
         }}>
         <PrimaryNavigator.Screen
           name={routes.LOGIN_STACK}
-          children={createLoginStack}
+          children={createLoginStack.bind(null, isConfigured())}
         />
         <PrimaryNavigator.Screen
           name={routes.DRAWER_STACK}
@@ -107,4 +138,6 @@ const AppNavigation = (props) => {
 
 export default connect((state) => ({
   password: state.session.password,
+  url: state.session.url,
+  database: state.session.database,
 }))(AppNavigation)
