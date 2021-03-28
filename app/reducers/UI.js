@@ -4,6 +4,7 @@ const initialState = {
   loginErrorTitle: "",
   loginErrorMessage: "",
   showLoadingModal: false,
+  showProductModal: false,
 }
 
 function reducer(state = initialState, action = {}) {
@@ -29,6 +30,16 @@ function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showLoadingModal: false,
+      }
+    case ActionTypes.SHOW_PRODUCT_MODAL:
+      return {
+        ...state,
+        showProductModal: true,
+      }
+    case ActionTypes.HIDE_PRODUCT_MODAL:
+      return {
+        ...state,
+        showProductModal: false,
       }
     case ActionTypes.LOGOUT:
       return {

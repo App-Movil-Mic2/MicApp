@@ -5,14 +5,15 @@ import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native"
 
 import { goLogout } from "../actions/SessionActions"
 import MIC2Logo from "../../assets/images/MIC2Logo"
+import { resetNavigationTo } from "../utils/navigation"
 import { routes } from "../constants/RouteNames"
 
 class Drawer extends React.Component {
   isActive(routeName) {
-    if (this.props.state.state.routeNames[0] === routeName) {
-      return true
-    }
-    return false
+    const route = this.props.state?.routes?.find(
+      (route) => route.name === routeName,
+    )
+    return this.props.descriptors[route.key]?.navigation?.isFocused()
   }
 
   render() {
@@ -22,7 +23,10 @@ class Drawer extends React.Component {
           <MIC2Logo />
         </View>
         <View style={styles.drawer_item_list}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              resetNavigationTo(routes.BUSINESS_PARTNERS_STACK, null, null)
+            }>
             <Text
               style={[
                 styles.drawer_item,
@@ -32,14 +36,17 @@ class Drawer extends React.Component {
               Socios de Negocios
             </Text>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              resetNavigationTo(routes.PRODUCTS_STACK, null, null)
+            }>
             <Text
               style={[
                 styles.drawer_item,
-                this.isActive(routes.PRODUCTS_LIST_STACK) &&
+                this.isActive(routes.PRODUCTS_STACK) &&
                   styles.drawer_item_active,
               ]}>
-              Lista de productos
+              Lista de Productos
             </Text>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback

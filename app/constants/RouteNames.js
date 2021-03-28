@@ -6,10 +6,12 @@ export const routes = {
   BUSINESS_PARTNERS_STACK: "businessPartnersStack",
   BUSINESS_PARTNERS_SCREEN: "businessPartnersScreen",
   BUSINESS_PARTNER_SCREEN: "businessPartnerScreen",
-  PRODUCTS_LIST_STACK: "productsListStack",
+  PRODUCTS_STACK: "productsStack",
+  PRODUCTS_SCREEN: "productsScreen",
 }
 
 export const titles = {
   BUSINESS_PARTNERS_SCREEN: "Socios de Negocios",
   BUSINESS_PARTNER_SCREEN: "Gestión de Negocios",
+  PRODUCTS_SCREEN: "Lista de Productos",
 }

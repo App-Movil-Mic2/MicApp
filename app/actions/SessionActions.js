@@ -1,6 +1,7 @@
 import Odoo from "react-native-odoo"
 
 import ActionTypes from "../constants/ActionTypes"
+import { hideLoadingModal, showLoadingModal } from "./UIActions"
 import { navigateTo, resetNavigationTo } from "../utils/navigation"
 import { routes } from "../constants/RouteNames"
 
@@ -91,18 +92,6 @@ function loginFailed(loginErrorTitle, loginErrorMessage) {
 export function cleanLoginError() {
   return {
     type: ActionTypes.CLEAN_LOGIN_ERROR,
-  }
-}
-
-function showLoadingModal() {
-  return {
-    type: ActionTypes.SHOW_LOADING_MODAL,
-  }
-}
-
-function hideLoadingModal() {
-  return {
-    type: ActionTypes.HIDE_LOADING_MODAL,
   }
 }
 

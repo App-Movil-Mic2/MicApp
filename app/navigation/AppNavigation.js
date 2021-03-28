@@ -12,11 +12,13 @@ import Header from "../components/Header"
 import LoginScreen from "../screens/LoginScreen"
 import { navigationRef } from "../utils/navigation"
 import { routes, titles } from "../constants/RouteNames"
+import ProductsScreen from "../screens/ProductsScreen"
 
 const PrimaryNavigator = createStackNavigator()
 const LoginStack = createStackNavigator()
 const DrawerNavigationStack = createDrawerNavigator()
 const BusinnessPartnersStack = createStackNavigator()
+const ProductsStack = createStackNavigator()
 
 const mapNavigationStateParamsToProps = (SomeComponent) => {
   return class extends React.Component {
@@ -68,18 +70,38 @@ const createBusinnessPartnersStack = () => {
   )
 }
 
+const createProductsStack = () => {
+  return (
+    <ProductsStack.Navigator initialRouteName={routes.PRODUCTS_SCREEN}>
+      <ProductsStack.Screen
+        name={routes.PRODUCTS_SCREEN}
+        component={ProductsScreen}
+        options={{
+          headerTitle: titles.PRODUCTS_SCREEN,
+          header: ({ scene, previous, navigation }) =>
+            getHeader(scene, previous, navigation),
+        }}
+      />
+    </ProductsStack.Navigator>
+  )
+}
+
 const createDrawerNavigationStack = () => {
   return (
     <DrawerNavigationStack.Navigator
       initialRouteName={routes.BUSINESS_PARTNERS_STACK}
       drawerPosition="left"
       drawerType="front"
-      drawerContent={(state, navigation) => (
-        <Drawer state={state} nav={navigation} />
+      drawerContent={({ state, descriptors }) => (
+        <Drawer state={state} descriptors={descriptors} />
       )}>
       <DrawerNavigationStack.Screen
         name={routes.BUSINESS_PARTNERS_STACK}
-        component={createBusinnessPartnersStack}
+        children={createBusinnessPartnersStack}
+      />
+      <DrawerNavigationStack.Screen
+        name={routes.PRODUCTS_STACK}
+        children={createProductsStack}
       />
     </DrawerNavigationStack.Navigator>
   )
