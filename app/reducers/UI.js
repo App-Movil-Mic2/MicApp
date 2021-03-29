@@ -5,6 +5,8 @@ const initialState = {
   loginErrorMessage: "",
   showLoadingModal: false,
   showProductModal: false,
+  showOrderDetailModal: false,
+  showShippingCostModal: false,
 }
 
 function reducer(state = initialState, action = {}) {
@@ -30,6 +32,26 @@ function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showLoadingModal: false,
+      }
+    case ActionTypes.SHOW_ORDER_DETAIL_MODAL:
+      return {
+        ...state,
+        showOrderDetailModal: true,
+      }
+    case ActionTypes.HIDE_ORDER_DETAIL_MODAL:
+      return {
+        ...state,
+        showOrderDetailModal: false,
+      }
+    case ActionTypes.SHOW_SHIPPING_COST_MODAL:
+      return {
+        ...state,
+        showShippingCostModal: true,
+      }
+    case ActionTypes.HIDE_SHIPPING_COST_MODAL:
+      return {
+        ...state,
+        showShippingCostModal: false,
       }
     case ActionTypes.SHOW_PRODUCT_MODAL:
       return {

@@ -7,7 +7,10 @@ import BusinessPartnerItem from "../components/BusinessPartnerItem"
 const BusinessPartnerScreen = (props) => {
   return (
     <View style={styles.business_partner_screen_view}>
-      <BusinessPartnerItem item={props.item} />
+      <BusinessPartnerItem
+        item={props.item}
+        canGoBusinessPartnerScreen={false}
+      />
       <BusinessActions />
     </View>
   )

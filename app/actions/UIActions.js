@@ -24,3 +24,28 @@ export function hideProductModal() {
     type: ActionTypes.HIDE_PRODUCT_MODAL,
   }
 }
+
+export function showOrderDetailModal(selectedOrderDetail) {
+  return {
+    type: ActionTypes.SHOW_ORDER_DETAIL_MODAL,
+    selectedOrderDetail: selectedOrderDetail,
+  }
+}
+
+export function hideOrderDetailModal() {
+  return {
+    type: ActionTypes.HIDE_ORDER_DETAIL_MODAL,
+  }
+}
+
+export function showShippingCostModal() {
+  return {
+    type: ActionTypes.SHOW_SHIPPING_COST_MODAL,
+  }
+}
+
+export function hideShippingCostModal() {
+  return {
+    type: ActionTypes.HIDE_SHIPPING_COST_MODAL,
+  }
+}

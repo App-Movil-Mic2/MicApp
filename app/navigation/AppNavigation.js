@@ -11,8 +11,10 @@ import Drawer from "../components/Drawer"
 import Header from "../components/Header"
 import LoginScreen from "../screens/LoginScreen"
 import { navigationRef } from "../utils/navigation"
-import { routes, titles } from "../constants/RouteNames"
+import OrderScreen from "../screens/OrderScreen"
 import ProductsScreen from "../screens/ProductsScreen"
+import { routes, titles } from "../constants/RouteNames"
+import ShippingAddressesScreen from "../screens/ShippingAddressesScreen"
 
 const PrimaryNavigator = createStackNavigator()
 const LoginStack = createStackNavigator()
@@ -41,7 +43,14 @@ const getHeader = (scene, previous, navigation) => {
       ? options.title
       : scene.route.name
 
-  return <Header title={title} navigation={navigation} />
+  return (
+    <Header
+      title={title}
+      navigation={navigation}
+      previous={previous}
+      scene={scene}
+    />
+  )
 }
 
 const createBusinnessPartnersStack = () => {
@@ -62,6 +71,24 @@ const createBusinnessPartnersStack = () => {
         component={mapNavigationStateParamsToProps(BusinessPartnerScreen)}
         options={{
           headerTitle: titles.BUSINESS_PARTNER_SCREEN,
+          header: ({ scene, previous, navigation }) =>
+            getHeader(scene, previous, navigation),
+        }}
+      />
+      <BusinnessPartnersStack.Screen
+        name={routes.ORDER_SCREEN}
+        component={mapNavigationStateParamsToProps(OrderScreen)}
+        options={{
+          headerTitle: titles.ORDER_SCREEN,
+          header: ({ scene, previous, navigation }) =>
+            getHeader(scene, previous, navigation),
+        }}
+      />
+      <BusinnessPartnersStack.Screen
+        name={routes.SHIPPING_ADDRESSES_SCREEN}
+        component={mapNavigationStateParamsToProps(ShippingAddressesScreen)}
+        options={{
+          headerTitle: titles.SHIPPING_ADDRESSES_SCREEN,
           header: ({ scene, previous, navigation }) =>
             getHeader(scene, previous, navigation),
         }}

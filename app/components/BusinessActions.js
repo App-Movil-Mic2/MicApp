@@ -1,10 +1,17 @@
 import React from "react"
 import { View, StyleSheet, Text } from "react-native"
-import ChargeIcon from "../../assets/images/ChargeIcon"
-import OrderIcon from "../../assets/images/OrderIcon"
+
 import Button from "./Button"
+import ChargeIcon from "../../assets/images/ChargeIcon"
+import { navigateTo } from "../utils/navigation"
+import OrderIcon from "../../assets/images/OrderIcon"
+import { routes } from "../constants/RouteNames"
 
 class BusinessActions extends React.Component {
+  goOrderScreen() {
+    navigateTo(routes.ORDER_SCREEN, null, null)
+  }
+
   render() {
     return (
       <View style={styles.business_actions_view}>
@@ -16,7 +23,11 @@ class BusinessActions extends React.Component {
         <View style={styles.business_actions_row}>
           <View style={styles.business_actions_column}>
             <OrderIcon />
-            <Button title="Pedidos" style={{ height: 35 }} />
+            <Button
+              title="Pedidos"
+              onPress={() => this.goOrderScreen()}
+              style={{ height: 35 }}
+            />
           </View>
           <View style={styles.business_actions_column}>
             <ChargeIcon />

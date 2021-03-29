@@ -5,10 +5,16 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler"
 
 import BackIcon from "../../assets/images/BackIcon"
 import MenuIcon from "../../assets/images/MenuIcon"
+import ShoppingCartIcon from "../../assets/images/ShoppingCartIcon"
+import { routes, titles } from "../constants/RouteNames"
+import { navigateTo } from "../utils/navigation"
 
 class Header extends React.Component {
   getHeaderIcon() {
-    if (!this.props.navigation.canGoBack()) {
+    if (
+      !this.props.navigation.canGoBack() &&
+      !this.props.scene.route.params?.canGoBack
+    ) {
       return (
         <TouchableWithoutFeedback onPress={this.props.navigation.openDrawer}>
           <MenuIcon />
@@ -23,11 +29,25 @@ class Header extends React.Component {
     }
   }
 
+  getShoppingCartIcon() {
+    if (this.props.title === titles.ORDER_SCREEN) {
+      return (
+        <TouchableWithoutFeedback
+          onPress={() =>
+            navigateTo(routes.PRODUCTS_STACK, { canGoBack: true }, null)
+          }>
+          <ShoppingCartIcon />
+        </TouchableWithoutFeedback>
+      )
+    }
+  }
+
   render() {
     return (
       <View style={styles.header}>
         {this.getHeaderIcon()}
         <Text style={styles.header_title}>{this.props.title}</Text>
+        {this.getShoppingCartIcon()}
       </View>
     )
   }
@@ -53,6 +73,7 @@ const styles = StyleSheet.create({
     marginLeft: 22,
     textAlignVertical: "center",
     includeFontPadding: false,
+    flex: 1,
   },
 })
 

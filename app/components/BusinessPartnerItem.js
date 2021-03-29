@@ -1,3 +1,4 @@
+import { connect } from "react-redux"
 import Proptypes from "prop-types"
 import React from "react"
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native"
@@ -5,16 +6,25 @@ import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native"
 import DollarSymbol from "../../assets/images/DollarSymbol"
 import Mobile from "../../assets/images/Mobile"
 import { navigateTo } from "../utils/navigation"
-import User from "../../assets/images/User"
 import { routes } from "../constants/RouteNames"
+import { selectBusinessPartner } from "../actions/OrderActions"
+import User from "../../assets/images/User"
 
 class BusinessPartnerItem extends React.Component {
   static defaultProps = {
     item: null,
+    canGoBusinessPartnerScreen: true,
   }
 
   goBusinessPartnerScreen() {
-    navigateTo(routes.BUSINESS_PARTNER_SCREEN, { item: this.props.item }, null)
+    if (this.props.canGoBusinessPartnerScreen) {
+      this.props.dispatch(selectBusinessPartner(this.props.item))
+      navigateTo(
+        routes.BUSINESS_PARTNER_SCREEN,
+        { item: this.props.item },
+        null,
+      )
+    }
   }
 
   render() {
@@ -59,6 +69,7 @@ class BusinessPartnerItem extends React.Component {
 
 BusinessPartnerItem.propTypes = {
   item: Proptypes.object,
+  canGoBusinessPartnerScreen: Proptypes.bool,
 }
 
 const styles = StyleSheet.create({
@@ -101,4 +112,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BusinessPartnerItem
+export default connect()(BusinessPartnerItem)
