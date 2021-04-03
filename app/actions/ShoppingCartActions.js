@@ -26,7 +26,7 @@ export function deleteProductInShoppingCart(product, shoppingCart) {
   }
 }
 
-function setShoppingCart(shoppingCart) {
+export function setShoppingCart(shoppingCart) {
   return {
     type: ActionTypes.SET_SHOPPING_CART,
     shoppingCart: shoppingCart,

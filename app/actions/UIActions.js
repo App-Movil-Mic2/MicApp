@@ -50,6 +50,19 @@ export function hideShippingCostModal() {
   }
 }
 
+export function showOrderRegisteredModal(shoppingCart) {
+  return {
+    type: ActionTypes.SHOW_ORDER_REGISTERED_MODAL,
+    shoppingCart: shoppingCart,
+  }
+}
+
+export function hideOrderRegisteredModal() {
+  return {
+    type: ActionTypes.HIDE_ORDER_REGISTERED_MODAL,
+  }
+}
+
 export function setBusinessPartnerFilter(businessPartnerFilter) {
   return {
     type: ActionTypes.SET_BUSINESS_PARTNER_FILTER,

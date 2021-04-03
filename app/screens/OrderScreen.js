@@ -10,6 +10,7 @@ import OrderForm from "../components/OrderForm"
 import { routes } from "../constants/RouteNames"
 import ShippingCostModal from "../components/ShippingCostModal"
 import User from "../../assets/images/User"
+import OrderRegisteredModal from "../components/OrderRegisteredModal"
 
 const OrderScreen = (props) => {
   const getContactView = () => {
@@ -51,7 +52,11 @@ const OrderScreen = (props) => {
   }
 
   const getModalBackground = () => {
-    if (!props.showShippingCostModal && !props.showOrderDetailModal) {
+    if (
+      !props.showShippingCostModal &&
+      !props.showOrderDetailModal &&
+      !props.showOrderRegisteredModal
+    ) {
       return
     }
     return <View style={styles.modal_backgroud} />
@@ -66,6 +71,7 @@ const OrderScreen = (props) => {
       <OrderDetailsList />
       <OrderDetailModal />
       <OrderForm />
+      <OrderRegisteredModal />
     </View>
   )
 }
@@ -131,4 +137,5 @@ export default connect((state) => ({
   selectedShippingAddress: state.order.selectedShippingAddress,
   showShippingCostModal: state.ui.showShippingCostModal,
   showOrderDetailModal: state.ui.showOrderDetailModal,
+  showOrderRegisteredModal: state.ui.showOrderRegisteredModal,
 }))(OrderScreen)
