@@ -8,34 +8,48 @@ import EditIcon from "../../assets/images/EditIcon"
 import { showShippingCostModal } from "../actions/UIActions"
 
 class OrderForm extends React.Component {
+  getSubtotal() {
+    let total = 0
+    this.props.shoppingCart.map((orderDetail) => {
+      total +=
+        Number.parseFloat(orderDetail?.quantity) *
+        Number.parseFloat(orderDetail?.product.price)
+    })
+    return total
+  }
+
   getTotal() {
-    return `$ ${(111.7 + this.props.shippingCost).toFixed(2)}`
+    return `$ ${(this.getSubtotal() + this.props.shippingCost).toFixed(2)}`
+  }
+
+  getShippingTaxRow() {
+    return (
+      <View style={styles.order_form_row}>
+        <Text style={styles.order_form_title}>Costo de Envío</Text>
+        <View style={styles.order_form_shipping_tax_view}>
+          <TouchableWithoutFeedback
+            onPress={() => this.props.dispatch(showShippingCostModal())}>
+            <EditIcon width={15} height={15} />
+          </TouchableWithoutFeedback>
+          <Text
+            style={[
+              styles.order_form_price,
+              { marginLeft: 10 },
+            ]}>{`$ ${this.props.shippingCost.toFixed(2)}`}</Text>
+        </View>
+      </View>
+    )
   }
 
   render() {
     return (
       <View style={styles.order_form_view}>
         <View style={styles.order_form_row}>
-          <Text style={styles.order_form_title}>Subtotal</Text>
-          <Text style={styles.order_form_price}>$ 111.70</Text>
-        </View>
-        <View style={styles.order_form_row}>
-          <Text style={styles.order_form_title}>Costo de Envío</Text>
-          <View style={styles.order_form_shipping_tax_view}>
-            <TouchableWithoutFeedback
-              onPress={() => this.props.dispatch(showShippingCostModal())}>
-              <EditIcon width={15} height={15} />
-            </TouchableWithoutFeedback>
-            <Text
-              style={[
-                styles.order_form_price,
-                { marginLeft: 10 },
-              ]}>{`$ ${this.props.shippingCost.toFixed(2)}`}</Text>
-          </View>
-        </View>
-        <View style={styles.order_form_row}>
           <Text style={styles.order_form_title}>Total</Text>
-          <Text style={styles.order_form_price}>{this.getTotal()}</Text>
+          <Text
+            style={styles.order_form_price}>{`$ ${this.getSubtotal().toFixed(
+            2,
+          )}`}</Text>
         </View>
         <Button title="Confirmar" style={styles.order_form_confirm_button} />
       </View>
@@ -80,4 +94,6 @@ const styles = StyleSheet.create({
 
 export default connect((state) => ({
   shippingCost: state.order.shippingCost,
+  shoppingCart: state.shoppingCart.shoppingCart,
+  refreshOrderDetailItem: state.ui.refreshOrderDetailItem,
 }))(OrderForm)

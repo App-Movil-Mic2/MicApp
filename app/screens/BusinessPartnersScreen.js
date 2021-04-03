@@ -1,13 +1,19 @@
 import React from "react"
 import { StyleSheet, TextInput, View } from "react-native"
+import { useDispatch } from "react-redux"
+
 import BusinessPartnersList from "../components/BusinessPartnersList"
+import { setBusinessPartnerFilter } from "../actions/UIActions"
 
 const BusinessPartnersScreen = () => {
+  const dispatch = useDispatch()
+
   return (
     <View style={styles.business_partners_screen}>
       <TextInput
         placeholder="Buscar"
         style={styles.business_partners_search_box}
+        onChangeText={(text) => dispatch(setBusinessPartnerFilter(text))}
       />
       <BusinessPartnersList />
     </View>

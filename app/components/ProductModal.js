@@ -10,7 +10,9 @@ import {
 import React from "react"
 
 import Button from "./Button"
+import { displayAlertModal } from "../utils/UI"
 import { hideProductModal } from "../actions/UIActions"
+import { saveProductInShoppingCart } from "../actions/ShoppingCartActions"
 
 class ProductModal extends React.Component {
   static defaulProps = {
@@ -19,6 +21,29 @@ class ProductModal extends React.Component {
 
   state = {
     quantity: "",
+    productModalSelected: null,
+  }
+
+  componentDidUpdate() {
+    if (
+      this.props.productModalSelected?.name !==
+      this.state.productModalSelected?.name
+    ) {
+      const index = this.props.shoppingCart?.findIndex(
+        (orderDetail) =>
+          orderDetail.product?.name === this.props.productModalSelected?.name,
+      )
+      if (
+        index >= 0 &&
+        this.state.quantity !==
+          this.props.shoppingCart[index]?.quantity?.toString()
+      ) {
+        this.setState({
+          quantity: this.props.shoppingCart[index]?.quantity?.toString(),
+          productModalSelected: this.props.shoppingCart[index]?.product,
+        })
+      }
+    }
   }
 
   getSubtotal() {
@@ -43,9 +68,38 @@ class ProductModal extends React.Component {
     }
   }
 
-  closeProductModal() {
-    this.setState({ quantity: "" })
-    this.props.dispatch(hideProductModal())
+  addProductToShoppingCart() {
+    if (Number.parseFloat(this.state.quantity)) {
+      if (
+        Number.parseFloat(this.state.quantity) >
+        Number.parseFloat(this.props.productModalSelected.quantity)
+      ) {
+        displayAlertModal(
+          "Sin stock",
+          "No es posible cotizar una mayor cantidad que el stock del producto",
+          false,
+          null,
+          null,
+        )
+        return
+      }
+      this.props.dispatch(
+        saveProductInShoppingCart(
+          this.props.productModalSelected,
+          Number.parseFloat(this.state.quantity),
+          this.props.shoppingCart,
+        ),
+      )
+    }
+    this.closeProductModal()
+  }
+
+  async closeProductModal() {
+    await this.props.dispatch(hideProductModal())
+    this.setState({
+      quantity: "",
+      productModalSelected: null,
+    })
   }
 
   render() {
@@ -78,7 +132,7 @@ class ProductModal extends React.Component {
             </View>
             <Button
               title="Agregar al carrito"
-              onPress={() => this.closeProductModal()}
+              onPress={() => this.addProductToShoppingCart()}
             />
             <TouchableWithoutFeedback onPress={() => this.closeProductModal()}>
               <Text style={styles.modal_cancel_text}>Cancelar</Text>
@@ -144,4 +198,5 @@ const styles = StyleSheet.create({
 export default connect((state) => ({
   productModalSelected: state.shoppingCart.productModalSelected,
   showProductModal: state.ui.showProductModal,
+  shoppingCart: state.shoppingCart.shoppingCart,
 }))(ProductModal)

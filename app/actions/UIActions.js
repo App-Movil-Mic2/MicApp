@@ -49,3 +49,17 @@ export function hideShippingCostModal() {
     type: ActionTypes.HIDE_SHIPPING_COST_MODAL,
   }
 }
+
+export function setBusinessPartnerFilter(businessPartnerFilter) {
+  return {
+    type: ActionTypes.SET_BUSINESS_PARTNER_FILTER,
+    businessPartnerFilter: businessPartnerFilter,
+  }
+}
+
+export function setProductFilter(productFilter) {
+  return {
+    type: ActionTypes.SET_PRODUCT_FILTER,
+    productFilter: productFilter,
+  }
+}

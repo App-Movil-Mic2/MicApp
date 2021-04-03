@@ -5,35 +5,13 @@ import React from "react"
 import OrderDetailItem from "./OrderDetailItem"
 
 class OrderDetailsList extends React.Component {
-  DATA = [
-    {
-      product: {
-        name: "Alambres",
-        quantity: "5",
-        price: "1.20",
-      },
-      quantity: 7,
-    },
-    {
-      product: {
-        name: "Alambres 2",
-        quantity: "8",
-        price: "2",
-      },
-      quantity: 50,
-    },
-    {
-      product: {
-        name: "Alambres 3",
-        quantity: "20",
-        price: "1.10",
-      },
-      quantity: 3,
-    },
-  ]
-
   renderItem({ item }) {
-    return <OrderDetailItem item={item} />
+    return (
+      <OrderDetailItem
+        item={item}
+        refreshOrderDetailItem={this.props.refreshOrderDetailItem}
+      />
+    )
   }
 
   headerListComponent() {
@@ -49,13 +27,14 @@ class OrderDetailsList extends React.Component {
       <View>
         {this.headerListComponent()}
         <FlatList
-          data={this.DATA}
-          renderItem={this.renderItem}
+          data={this.props.shoppingCart}
+          renderItem={(item) => this.renderItem(item)}
           keyExtractor={(item) => item.product.name.toString()}
           ItemSeparatorComponent={() => (
             <View style={{ height: 1, backgroundColor: "#56bef4" }} />
           )}
           style={styles.order_details_list}
+          extraData={this.props.refreshOrderDetailItem}
         />
       </View>
     )
@@ -81,4 +60,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export default connect()(OrderDetailsList)
+export default connect((state) => ({
+  shoppingCart: state.shoppingCart.shoppingCart,
+  refreshOrderDetailItem: state.ui.refreshOrderDetailItem,
+}))(OrderDetailsList)

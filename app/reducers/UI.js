@@ -7,6 +7,9 @@ const initialState = {
   showProductModal: false,
   showOrderDetailModal: false,
   showShippingCostModal: false,
+  refreshOrderDetailItem: false,
+  businessPartnerFilter: "",
+  productFilter: "",
 }
 
 function reducer(state = initialState, action = {}) {
@@ -42,6 +45,7 @@ function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showOrderDetailModal: false,
+        refreshOrderDetailItem: !state.refreshOrderDetailItem,
       }
     case ActionTypes.SHOW_SHIPPING_COST_MODAL:
       return {
@@ -62,6 +66,17 @@ function reducer(state = initialState, action = {}) {
       return {
         ...state,
         showProductModal: false,
+        refreshOrderDetailItem: !state.refreshOrderDetailItem,
+      }
+    case ActionTypes.SET_BUSINESS_PARTNER_FILTER:
+      return {
+        ...state,
+        businessPartnerFilter: action.businessPartnerFilter,
+      }
+    case ActionTypes.SET_PRODUCT_FILTER:
+      return {
+        ...state,
+        productFilter: action.productFilter,
       }
     case ActionTypes.LOGOUT:
       return {

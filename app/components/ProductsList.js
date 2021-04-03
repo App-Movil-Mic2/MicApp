@@ -65,15 +65,22 @@ class ProductsList extends React.Component {
   render() {
     return (
       <FlatList
-        data={this.DATA}
+        data={this.DATA.filter((product) =>
+          product.name
+            .toLowerCase()
+            .includes(this.props.productFilter.toLowerCase()),
+        )}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.name.toString()}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         numColumns={2}
         horizontal={false}
+        extraData={this.props.productFilter}
       />
     )
   }
 }
 
-export default connect()(ProductsList)
+export default connect((state) => ({
+  productFilter: state.ui.productFilter,
+}))(ProductsList)

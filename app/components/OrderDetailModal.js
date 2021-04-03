@@ -10,6 +10,11 @@ import {
 import React from "react"
 
 import Button from "./Button"
+import {
+  deleteProductInShoppingCart,
+  saveProductInShoppingCart,
+} from "../actions/ShoppingCartActions"
+import { displayAlertModal } from "../utils/UI"
 import { hideOrderDetailModal } from "../actions/UIActions"
 
 class OrderDetailModal extends React.Component {
@@ -33,9 +38,9 @@ class OrderDetailModal extends React.Component {
 
   areOrderDetailEqual(selectedOrderDetailProp, selectedOrderDetailState) {
     return (
-      selectedOrderDetailProp.product?.name ===
-        selectedOrderDetailState.product?.name &&
-      selectedOrderDetailProp.quantity === selectedOrderDetailState.quantity
+      selectedOrderDetailProp?.product?.name ===
+        selectedOrderDetailState?.product?.name &&
+      selectedOrderDetailProp?.quantity === selectedOrderDetailState?.quantity
     )
   }
 
@@ -79,10 +84,43 @@ class OrderDetailModal extends React.Component {
     }
   }
 
+  updateOrderDetail() {
+    if (Number.parseFloat(this.state.quantity)) {
+      if (
+        Number.parseFloat(this.state.quantity) >
+        Number.parseFloat(this.props.selectedOrderDetail.product.quantity)
+      ) {
+        displayAlertModal(
+          "Sin stock",
+          "No es posible cotizar una mayor cantidad que el stock del producto",
+          false,
+          null,
+          null,
+        )
+        return
+      }
+      this.props.dispatch(
+        saveProductInShoppingCart(
+          this.props.selectedOrderDetail.product,
+          Number.parseFloat(this.state.quantity),
+          this.props.shoppingCart,
+        ),
+      )
+    }
+    this.closeOrderDetailModal()
+  }
+
+  deleteOrderDetail() {
+    this.props.dispatch(
+      deleteProductInShoppingCart(
+        this.props.selectedOrderDetail.product,
+        this.props.shoppingCart,
+      ),
+    )
+    this.closeOrderDetailModal()
+  }
+
   closeOrderDetailModal() {
-    this.setState({
-      quantity: this.props.selectedOrderDetail?.quantity.toString(),
-    })
     this.props.dispatch(hideOrderDetailModal())
   }
 
@@ -94,6 +132,12 @@ class OrderDetailModal extends React.Component {
         animationType="fade">
         <View style={styles.center_view}>
           <View style={styles.modal_view}>
+            <TouchableWithoutFeedback onPress={() => this.deleteOrderDetail()}>
+              <Text
+                style={[styles.modal_cancel_text, styles.modal_delete_text]}>
+                Eliminar
+              </Text>
+            </TouchableWithoutFeedback>
             <Text style={styles.order_detail_name}>
               {this.props.selectedOrderDetail?.product?.name}
             </Text>
@@ -116,7 +160,7 @@ class OrderDetailModal extends React.Component {
             </View>
             <Button
               title="Actualizar"
-              onPress={() => this.closeOrderDetailModal()}
+              onPress={() => this.updateOrderDetail()}
             />
             <TouchableWithoutFeedback
               onPress={() => this.closeOrderDetailModal()}>
@@ -178,9 +222,13 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
     marginTop: 15,
   },
+  modal_delete_text: {
+    alignSelf: "flex-end",
+  },
 })
 
 export default connect((state) => ({
   selectedOrderDetail: state.order.selectedOrderDetail,
   showOrderDetailModal: state.ui.showOrderDetailModal,
+  shoppingCart: state.shoppingCart.shoppingCart,
 }))(OrderDetailModal)

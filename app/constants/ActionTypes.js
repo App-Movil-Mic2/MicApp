@@ -14,6 +14,9 @@ const ActionTypes = {
   HIDE_SHIPPING_COST_MODAL: "hideShippingCostModal",
   SHOW_PRODUCT_MODAL: "showProductModal",
   HIDE_PRODUCT_MODAL: "hideProductModal",
+  SET_BUSINESS_PARTNER_FILTER: "setBusinessPartnerFilter",
+  SET_PRODUCT_FILTER: "setProductFilter",
+  SET_SHOPPING_CART: "setShoppingCart",
   LOGOUT: "logout",
 }
 

@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
-import React from "react"
 import { FlatList } from "react-native"
+import React from "react"
 
 import BusinessPartnerItem from "./BusinessPartnerItem"
 
@@ -45,12 +45,19 @@ class BusinessPartnersList extends React.Component {
   render() {
     return (
       <FlatList
-        data={this.DATA}
+        data={this.DATA.filter((item) =>
+          item.name
+            .toLowerCase()
+            .includes(this.props.businessPartnerFilter.toLowerCase()),
+        )}
         renderItem={this.renderItem}
         keyExtractor={(item) => item.name.toString()}
+        extraData={this.props.businessPartnerFilter}
       />
     )
   }
 }
 
-export default connect()(BusinessPartnersList)
+export default connect((state) => ({
+  businessPartnerFilter: state.ui.businessPartnerFilter,
+}))(BusinessPartnersList)

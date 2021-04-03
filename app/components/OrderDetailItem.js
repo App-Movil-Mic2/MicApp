@@ -2,6 +2,7 @@ import { connect } from "react-redux"
 import Proptypes from "prop-types"
 import React from "react"
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native"
+
 import { showOrderDetailModal } from "../actions/UIActions"
 
 class OrderDetailItem extends React.Component {
@@ -11,8 +12,8 @@ class OrderDetailItem extends React.Component {
 
   getSubtotalDetail() {
     return `$ ${(
-      Number.parseFloat(this.props.item.product.price) *
-      Number.parseFloat(this.props.item.quantity)
+      Number.parseFloat(this.props.item?.product.price) *
+      Number.parseFloat(this.props.item?.quantity)
     ).toFixed(2)}`
   }
 
@@ -24,10 +25,10 @@ class OrderDetailItem extends React.Component {
         }>
         <View style={styles.order_detail_item_view}>
           <Text style={styles.order_detail_item_name}>
-            {this.props.item.product.name}
+            {this.props.item?.product.name}
           </Text>
           <Text style={styles.order_detail_item_quantity}>
-            Cantidad: {this.props.item.quantity}
+            Cantidad: {this.props.item?.quantity}
           </Text>
           <Text style={styles.order_detail_item_subtotal}>
             {this.getSubtotalDetail()}
@@ -39,7 +40,7 @@ class OrderDetailItem extends React.Component {
 }
 
 OrderDetailItem.propTypes = {
-  item: Proptypes.object,
+  item: Proptypes.object.isRequired,
 }
 
 const styles = StyleSheet.create({

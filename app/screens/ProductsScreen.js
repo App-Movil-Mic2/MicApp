@@ -1,11 +1,14 @@
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import React from "react"
 import { StyleSheet, TextInput, View } from "react-native"
 
 import ProductModal from "../components/ProductModal"
 import ProductsList from "../components/ProductsList"
+import { setProductFilter } from "../actions/UIActions"
 
 const ProductsScreen = (props) => {
+  const dispatch = useDispatch()
+
   const getModalBackground = () => {
     if (!props.showProductModal) {
       return
@@ -16,7 +19,11 @@ const ProductsScreen = (props) => {
   return (
     <View style={styles.products_screen}>
       {getModalBackground()}
-      <TextInput placeholder="Buscar" style={styles.products_search_box} />
+      <TextInput
+        placeholder="Buscar"
+        onChangeText={(text) => dispatch(setProductFilter(text))}
+        style={styles.products_search_box}
+      />
       <ProductsList />
       <ProductModal />
     </View>
