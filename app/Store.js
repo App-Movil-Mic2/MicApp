@@ -8,7 +8,7 @@ import reducers from "./reducers"
 const persistConf = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["order", "session"],
+  whitelist: ["order", "session", "shoppingCart"],
 }
 const persistedReducer = persistReducer(persistConf, reducers)
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
