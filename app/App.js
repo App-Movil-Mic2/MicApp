@@ -1,6 +1,7 @@
 import { PersistGate } from "redux-persist/integration/react"
 import { Provider } from "react-redux"
-import React from "react"
+import React, { useEffect } from "react"
+import SplashScreen from "react-native-splash-screen"
 import { StatusBar } from "react-native"
 
 import AppNavigation from "./navigation/AppNavigation"
@@ -9,6 +10,11 @@ import LoadingModal from "./components/LoadingModal"
 
 const App = () => {
   const [store, persistor] = Store()
+
+  useEffect(() => {
+    SplashScreen.hide()
+  })
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

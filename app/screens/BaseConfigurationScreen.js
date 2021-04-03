@@ -1,14 +1,15 @@
 import React from "react"
-import { Image, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
+
 import BaseConfigurationForm from "../components/BaseConfigurationForm"
+import MIC2ColorLogo from "../../assets/images/MIC2ColorLogo"
 
 const BaseConfigurationScreen = () => {
   return (
     <View style={styles.base_configuration_screen}>
-      <Image
-        source={require("../../assets/images/mic_logo.png")}
-        style={styles.base_configuration_image}
-      />
+      <View style={styles.base_configuration_image}>
+        <MIC2ColorLogo />
+      </View>
       <Text style={styles.base_configuration_description}>
         Configuración Base
       </Text>
@@ -27,8 +28,6 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   base_configuration_image: {
-    width: 300,
-    height: 200,
     alignSelf: "center",
   },
   base_configuration_description: {

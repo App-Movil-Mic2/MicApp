@@ -1,14 +1,15 @@
 import React from "react"
-import { Image, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
+
 import LoginForm from "../components/LoginForm"
+import MIC2ColorLogo from "../../assets/images/MIC2ColorLogo"
 
 const LoginScreen = () => {
   return (
     <View style={styles.login_screen}>
-      <Image
-        source={require("../../assets/images/mic_logo.png")}
-        style={styles.login_image}
-      />
+      <View style={styles.login_image}>
+        <MIC2ColorLogo />
+      </View>
       <Text style={styles.login_description}>Inicio de sesión</Text>
       <LoginForm />
     </View>
@@ -25,8 +26,6 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
   },
   login_image: {
-    width: 300,
-    height: 200,
     alignSelf: "center",
   },
   login_description: {
